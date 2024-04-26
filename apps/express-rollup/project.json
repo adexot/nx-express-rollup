@@ -36,20 +36,35 @@
         }
       }
     },
+    "build-rollup": {
+      "executor": "@nx/rollup:rollup",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/apps/express-rollup",
+        "entryFile": "apps/express-rollup/src/main.ts",
+        "tsConfig": "apps/express-rollup/tsconfig.app.json",
+        "external": "all",
+        "buildableProjectDepsInPackageJsonType": "dependencies",
+        "updateBuildableProjectDepsInPackageJson": true,
+        "format": ["cjs"],
+        "outputFileName": "main",
+        "compiler": "babel",
+        "generateExportsField": true,
+        "assets": [
+          {
+            "glob": "apps/express-rollup/README.md",
+            "input": ".",
+            "output": "."
+          }
+        ]
+      }
+    },
     "serve": {
       "executor": "@nx/js:node",
-      "defaultConfiguration": "development",
       "options": {
-        "buildTarget": "express-rollup:build"
+        "buildTarget": "express-rollup:build-rollup"
       },
-      "configurations": {
-        "development": {
-          "buildTarget": "express-rollup:build:development"
-        },
-        "production": {
-          "buildTarget": "express-rollup:build:production"
-        }
-      }
+      "configurations": {}
     },
     "lint": {
       "executor": "@nx/linter:eslint",
